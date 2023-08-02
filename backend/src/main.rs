@@ -81,7 +81,7 @@ async fn history() -> impl Responder {
       .body(response.unwrap())
 }
 
-#[get("/get_bookmarks")]
+#[get("/bookmarks")]
 async fn bookmarks() -> impl Responder {
     let contents = fs::read_to_string("/home/robel/.config/qutebrowser/bookmarks/urls").map_err(ApiError::IOError);
     if let Err(e) = contents {
@@ -105,10 +105,29 @@ async fn bookmarks() -> impl Responder {
       .body(response.unwrap())
 }
 
-// #[get("/get_quickmarks")]
-// async fn quickmarks() -> impl Responder {
-//
-// }
+#[get("/quickmarks")]
+async fn quickmarks() -> impl Responder {
+    let contents = fs::read_to_string("/home/robel/.config/qutebrowser/quickmarks").map_err(ApiError::IOError);
+    if let Err(e) = contents {
+        return error_response(e);
+    }
+    let contents = contents.unwrap();
+    let lines = contents.lines();
+    let quickmark_vector: Vec<_> = lines.map(|line| {
+        let idx = line.find(' ').unwrap();
+        return Quickmark {
+            shortcut: line[0..idx].to_string(),
+            url: line[idx+1..].to_string(),
+        }
+    }).collect();
+    let response = serde_json::to_string(&quickmark_vector).map_err(ApiError::SerializeError);
+    if let Err(e) = response {
+        return error_response(e);
+    }
+    HttpResponse::Ok()
+      .content_type("application/json")
+      .body(response.unwrap())
+}
 
 
 #[actix_web::main]
@@ -117,6 +136,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(history)
             .service(bookmarks)
+            .service(quickmarks)
     })
     .bind("127.0.0.1:8080")?
     .run()
