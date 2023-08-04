@@ -9,7 +9,7 @@ pub fn get_quickmarks() -> Result<Vec<Quickmark>, ServerError> {
     let lines = contents.lines();
     let quickmark_vector: Vec<_> = lines.map(|line| {
         let idx = line.find(' ').unwrap();
-        return Quickmark {
+        Quickmark {
             shortcut: line[0..idx].to_string(),
             url: line[idx+1..].to_string(),
         }

@@ -8,7 +8,7 @@ pub fn get_bookmarks() -> Result<Vec<Bookmark>, ServerError> {
     let lines = contents.lines();
     let bookmark_vector: Vec<_> = lines.map(|line| {
         let idx = line.find(' ').unwrap();
-        return Bookmark {
+        Bookmark {
             url: line[0..idx].to_string(),
             title: line[idx+1..].to_string(),
         }
