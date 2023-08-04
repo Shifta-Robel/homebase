@@ -1,4 +1,5 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, ResponseError};
+use actix_cors::Cors;
 use rusqlite::{Connection, Result};
 use serde::{Deserialize, Serialize};
 use std::{fmt, env, fs};
@@ -134,6 +135,12 @@ async fn quickmarks() -> impl Responder {
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
+            .wrap(
+                Cors::default()
+                    .allow_any_origin()
+                    .allow_any_header()
+                    .allow_any_method()
+            )
             .service(history)
             .service(bookmarks)
             .service(quickmarks)
