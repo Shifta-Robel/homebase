@@ -9,6 +9,7 @@ pub enum ServerError {
     DbError(rusqlite::Error),
     SerializeError(serde_json::Error),
     IOError(std::io::Error),
+    SqliteError(sea_orm::DbErr),
 }
 
 impl fmt::Display for ServerError {
@@ -23,12 +24,19 @@ impl error::ResponseError for ServerError {
             ServerError::DbError(_) => StatusCode::INTERNAL_SERVER_ERROR,
             ServerError::SerializeError(_) => StatusCode::INTERNAL_SERVER_ERROR,
             ServerError::IOError(_) => StatusCode::INTERNAL_SERVER_ERROR,
+            ServerError::SqliteError(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
     fn error_response(&self) -> HttpResponse<actix_web::body::BoxBody> {
         HttpResponse::build(self.status_code())
             .insert_header(ContentType::json())
             .body(self.to_string())
+    }
+}
+
+impl std::convert::From<sea_orm::DbErr> for ServerError {
+    fn from(err: sea_orm::DbErr) -> Self {
+        ServerError::SqliteError(err)
     }
 }
 

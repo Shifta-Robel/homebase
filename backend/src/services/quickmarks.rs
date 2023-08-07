@@ -1,7 +1,7 @@
 use rusqlite::Result;
 use std::fs;
 use crate::errors::ServerError;
-use crate::models::Quickmark;
+use crate::models::quickmark::Quickmark;
 
 pub fn get_quickmarks() -> Result<Vec<Quickmark>, ServerError> {
     let contents = fs::read_to_string("/home/robel/.config/qutebrowser/quickmarks")

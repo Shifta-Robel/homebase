@@ -1,7 +1,7 @@
 use rusqlite::Result;
 use std::fs;
 use crate::errors::ServerError;
-use crate::models::Bookmark;
+use crate::models::bookmark::Bookmark;
 
 pub fn get_bookmarks() -> Result<Vec<Bookmark>, ServerError> {
     let contents = fs::read_to_string("/home/robel/.config/qutebrowser/bookmarks/urls").map_err(ServerError::IOError)?;

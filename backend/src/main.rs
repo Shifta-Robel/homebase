@@ -4,6 +4,7 @@ use actix_web::{
 };
 use actix_cors::Cors;
 use backend::api;
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // std::env::set_var("RUST_LOG", "info");
@@ -22,6 +23,7 @@ async fn main() -> std::io::Result<()> {
             .service(api::history::history)
             .service(api::bookmarks::bookmarks)
             .service(api::quickmarks::quickmarks)
+            .service(api::quicklinks::quicklink)
     })
     .bind("127.0.0.1:8080")?
     .run()

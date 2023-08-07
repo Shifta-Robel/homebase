@@ -1,6 +1,6 @@
 use rusqlite::{Connection, Result};
 use crate::errors::ServerError;
-use crate::models::HistoryItem;
+use crate::models::history_item::HistoryItem;
 
 pub fn get_history() -> Result<Vec<HistoryItem>, ServerError>{
     let conn = Connection::open("/home/robel/.local/share/qutebrowser/history.sqlite").map_err(ServerError::DbError)?;
