@@ -2,10 +2,11 @@ use sea_orm::{Database, DatabaseConnection, ConnectOptions};
 use sea_orm::error::DbErr;
 use std::time::Duration;
 
-pub async fn connect() -> Result<DatabaseConnection, DbErr> {
-    let url = "sqlite://./src/db/quicklinks.sqlite";
+pub async fn connect(path: &str) -> Result<DatabaseConnection, DbErr> {
+    // let url = "sqlite://./src/db/quicklinks.sqlite";
 
-    let mut opt = ConnectOptions::new(url);
+    // let mut opt = ConnectOptions::new(url);
+    let mut opt = ConnectOptions::new(path);
     opt.max_connections(100)
         .min_connections(5)
         .connect_timeout(Duration::from_secs(8))

@@ -1,12 +1,8 @@
-use sea_orm::EntityTrait;
-use sea_orm::error::DbErr;
-use crate::models::quicklink::quicklink::Model;
-use sea_orm::DatabaseConnection;
+use sea_orm::{error::DbErr, EntityTrait};
+use crate::config::AppConfig;
+use crate::models::quicklink::quicklink::{Model, Entity as Quicklink};
 
-use super::super::models::quicklink::quicklink::Entity as Quicklink;
-
-
-pub async fn get(config: DatabaseConnection , id: i32) -> Result<Option<Model>, DbErr> {
-    let conn = crate::db::connect(config.quicklinks_path)?
-    Quicklink::find_by_id(id).one(&conn).await
+pub async fn get(config: &AppConfig<'_>) -> Result<Vec<Model>, DbErr> {
+    let conn = crate::db::connect(config.quicklinks_db_path).await?;
+    Quicklink::find().all(&conn).await
 }
