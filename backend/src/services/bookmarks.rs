@@ -3,8 +3,8 @@ use std::fs;
 use crate::errors::ServerError;
 use crate::models::bookmark::Bookmark;
 
-pub fn get_bookmarks() -> Result<Vec<Bookmark>, ServerError> {
-    let contents = fs::read_to_string("/home/robel/.config/qutebrowser/bookmarks/urls").map_err(ServerError::IOError)?;
+pub fn get_bookmarks(path: &str) -> Result<Vec<Bookmark>, ServerError> {
+    let contents = fs::read_to_string(path).map_err(ServerError::IOError)?;
     let lines = contents.lines();
     let bookmark_vector: Vec<_> = lines.map(|line| {
         let idx = line.find(' ').unwrap();
