@@ -1,10 +1,12 @@
 use rusqlite::Result;
 use std::fs;
+use crate::config::AppConfig;
 use crate::errors::ServerError;
 use crate::models::quickmark::Quickmark;
 
-pub fn get_quickmarks() -> Result<Vec<Quickmark>, ServerError> {
-    let contents = fs::read_to_string("/home/robel/.config/qutebrowser/quickmarks")
+pub fn get_quickmarks(config: &AppConfig) -> Result<Vec<Quickmark>, ServerError> {
+    let path = config.quickmark_file_path.clone().unwrap_or(Quickmark::get_default_path());
+    let contents = fs::read_to_string(path)
         .map_err(ServerError::IOError)?;
     let lines = contents.lines();
     let quickmark_vector: Vec<_> = lines.map(|line| {

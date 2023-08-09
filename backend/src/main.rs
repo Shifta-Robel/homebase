@@ -26,7 +26,12 @@ async fn main() -> std::io::Result<()> {
             // .wrap(logger)
             .service(api::history::history)
             .service(api::bookmarks::bookmarks)
-            .service(api::quickmarks::quickmarks)
+            // .service(api::quickmarks::quickmarks)
+            .service(
+                web::resource("/quickmarks")
+                    .app_data(web::Data::new(config.clone()))
+                    .route(web::get().to(api::quickmarks::quickmarks))
+            )
             .service(
                 web::resource("/quicklink")
                     .app_data(web::Data::new(config.clone()))
