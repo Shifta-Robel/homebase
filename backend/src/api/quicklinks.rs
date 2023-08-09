@@ -5,7 +5,7 @@ use crate::errors::ServerError;
 // use crate::models::Bookmark;
 use crate::services::quicklinks::get;
 
-pub async fn quicklink(_req: HttpRequest, config: web::Data<AppConfig<'_>>) -> Result<HttpResponse, ServerError> {
+pub async fn quicklink(_req: HttpRequest, config: web::Data<AppConfig>) -> Result<HttpResponse, ServerError> {
     let model = get(config.get_ref()).await?;
     let response = serde_json::to_string(&model).map_err(ServerError::SerializeError)?;
     Ok(

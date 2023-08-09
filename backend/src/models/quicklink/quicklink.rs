@@ -3,6 +3,8 @@
 use sea_orm::entity::prelude::*;
 use serde::Serialize;
 
+const DB_URL: &str = "./src/db/quicklinks.sqlite";
+
 #[derive(Clone, Debug, Serialize, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(table_name = "Quicklink")]
 pub struct Model {
@@ -10,6 +12,12 @@ pub struct Model {
     pub id: i32,
     pub title: Option<String>,
     pub url: Option<String>,
+}
+
+impl Model {
+    pub fn get_default_path() -> String {
+        DB_URL.to_string()
+    }
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

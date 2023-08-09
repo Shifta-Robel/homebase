@@ -1,6 +1,7 @@
 use actix_web::{
     App, HttpServer, web,
     // middleware::Logger,
+
 };
 use actix_cors::Cors;
 use backend::api;
@@ -11,10 +12,9 @@ async fn main() -> std::io::Result<()> {
     // std::env::set_var("RUST_BACKTRACE", "1");
     // env_logger::init();
     //
-    // let config: &'static backend::config::AppConfig = &backend::config::AppConfig::build().unwrap();
     let config = backend::config::AppConfig::build().unwrap();
     
-    HttpServer::new(|| {
+    HttpServer::new(move || {
         // let logger = Logger::default();
         App::new()
             .wrap(
@@ -27,10 +27,9 @@ async fn main() -> std::io::Result<()> {
             .service(api::history::history)
             .service(api::bookmarks::bookmarks)
             .service(api::quickmarks::quickmarks)
-            // .service(api::quicklinks::quicklink)
             .service(
                 web::resource("/quicklink")
-                    .app_data(web::Data::new(backend::config::AppConfig::build().unwrap()))
+                    .app_data(web::Data::new(config.clone()))
                     .route(web::get().to(api::quicklinks::quicklink))
             )
     })
