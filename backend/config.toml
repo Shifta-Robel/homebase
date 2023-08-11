@@ -1,0 +1,4 @@
+# bookmarks_file_path = "stuff"
+quicklinks_db_path = "./src/db/quicklinks.sqlite"
+# quickmark_file_path = "stuff"
+# history_db_path = "stuff"
