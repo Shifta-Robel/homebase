@@ -37,5 +37,5 @@ impl  AppConfig {
 }
 
 fn get_contents(path: &str) -> Result<String, std::io::Error> {
-    Ok(std::fs::read_to_string(path)?)
+    std::fs::read_to_string(path)
 }
