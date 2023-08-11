@@ -10,6 +10,7 @@ pub enum ServerError {
     SerializeError(serde_json::Error),
     IOError(std::io::Error),
     SqliteError(sea_orm::DbErr),
+    FailedCommandExecution()
 }
 
 impl fmt::Display for ServerError {
@@ -25,6 +26,7 @@ impl error::ResponseError for ServerError {
             ServerError::SerializeError(_) => StatusCode::INTERNAL_SERVER_ERROR,
             ServerError::IOError(_) => StatusCode::INTERNAL_SERVER_ERROR,
             ServerError::SqliteError(_) => StatusCode::INTERNAL_SERVER_ERROR,
+            ServerError::FailedCommandExecution() => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
     fn error_response(&self) -> HttpResponse<actix_web::body::BoxBody> {
