@@ -24,7 +24,6 @@ async fn main() -> std::io::Result<()> {
                     .allow_any_header()
                     .allow_any_method()
             )
-            .route("/run_command", web::post().to(api::run_command::run_command))
             // .wrap(logger)
             .service(
                 web::resource("/history")
@@ -46,12 +45,11 @@ async fn main() -> std::io::Result<()> {
                     .app_data(config.clone())
                     .route(web::get().to(api::quicklinks::quicklink))
             )
-            // .service(
-            //     web::resource("/run_command")
-            //         // send the post request body as through app_data
-            //     .route(web::post().to(api::run_command::run_command))
-            // )
-            .route("/run_command", web::post().to(api::run_command::run_command))
+            .service(
+                web::resource("/run_command")
+                    .app_data(config.clone())
+                    .route(web::post().to(api::run_command::run_command))
+            )
     })
     .bind("127.0.0.1:8080")?
     .run()
