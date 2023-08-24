@@ -46,6 +46,11 @@ async fn main() -> std::io::Result<()> {
                     .route(web::get().to(api::quicklinks::quicklink))
             )
             .service(
+                web::resource("/reading_list")
+                    .app_data(config.clone())
+                    .route(web::get().to(api::reading_list::reading_list))
+            )
+            .service(
                 web::resource("/run_command")
                     .app_data(config.clone())
                     .route(web::post().to(api::run_command::run_command))

@@ -14,6 +14,10 @@ all_history :
 all_qlinks :
     @ curl localhost:8080/quicklink
 
+# get all quicklinks
+all_rlist :
+    @ curl localhost:8080/reading_list
+
 # run a command
 run_cmd COMMAND:
     curl -X POST \
