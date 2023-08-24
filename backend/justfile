@@ -1,0 +1,22 @@
+# get all bookmarks
+all_bmarks : 
+    @ curl localhost:8080/bookmarks    
+
+# get all quickmarks
+all_qmarks :
+    @ curl localhost:8080/quickmarks    
+
+# get all history
+all_history : 
+    @ curl localhost:8080/history    
+
+# get all quicklinks
+all_qlinks :
+    @ curl localhost:8080/quicklink
+
+# run a command
+run_cmd COMMAND:
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -d '{"command": "{{COMMAND}}"}' \
+    localhost:8080/run_command
