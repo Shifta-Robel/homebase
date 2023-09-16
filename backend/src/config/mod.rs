@@ -9,6 +9,7 @@ pub struct AppConfig {
     pub history_db_path: Option<String>,
     pub quicklinks_db_path: Option<String>,
     pub reading_list_db_path: Option<String>,
+    pub shortcuts_db_path: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Clone)]

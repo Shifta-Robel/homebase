@@ -4,3 +4,4 @@ pub mod quickmark;
 pub mod quicklink;
 pub mod commands;
 pub mod reading_list;
+pub mod shortcuts;
