@@ -10,7 +10,8 @@ pub enum ServerError {
     SerializeError(serde_json::Error),
     IOError(std::io::Error),
     SqliteError(sea_orm::DbErr),
-    FailedCommandExecution()
+    FailedCommandExecution(),
+    ConfigurationAccessError(String),
 }
 
 impl fmt::Display for ServerError {
@@ -27,6 +28,7 @@ impl error::ResponseError for ServerError {
             ServerError::IOError(_) => StatusCode::INTERNAL_SERVER_ERROR,
             ServerError::SqliteError(_) => StatusCode::INTERNAL_SERVER_ERROR,
             ServerError::FailedCommandExecution() => StatusCode::INTERNAL_SERVER_ERROR,
+            ServerError::ConfigurationAccessError(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
     fn error_response(&self) -> HttpResponse<actix_web::body::BoxBody> {
@@ -44,7 +46,7 @@ impl std::convert::From<sea_orm::DbErr> for ServerError {
 
 #[derive(Debug)]
 pub enum UserError {
-
+    InvalidConfigurationError(String),
 }
 
 impl fmt::Display for UserError {
@@ -54,10 +56,11 @@ impl fmt::Display for UserError {
 }
 
 impl error::ResponseError for UserError {
-    // fn status_code(&self) -> StatusCode {
-    //     match self {
-    //     }
-    // }
+    fn status_code(&self) -> StatusCode {
+        match self {
+            Self::InvalidConfigurationError(_) => StatusCode::UNPROCESSABLE_ENTITY,
+        }
+    }
     fn error_response(&self) -> HttpResponse<actix_web::body::BoxBody> {
         HttpResponse::build(self.status_code()).insert_header(ContentType::json()).body(self.to_string())
     }
