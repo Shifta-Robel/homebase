@@ -1,4 +1,38 @@
+[files]
 # bookmarks_file_path = "stuff"
-quicklinks_db_path = "./src/db/quicklinks.sqlite"
+# quicklinks_db_path = "./src/db/quicklinks.sqlite"
 # quickmark_file_path = "stuff"
 # history_db_path = "stuff"
+
+# [bg_image]
+# src = "~/Pictures/Webcam/2022-08-16-144239.jpg"
+# blur = 3
+# fill = "repeat"
+#
+#
+# [bg_color]
+# color = "#43ef23"
+#
+# [bg_gradient]
+# from = "#dfd54d"
+# to = "#dc3253"
+# angle = 231
+# gradient = true
+#
+# [bg_pattern]
+# pattern = "dots"
+# custom = "hii"
+# color = "#dfd"
+# dots = true
+# grid = true
+# cross = true
+# custom = "miinam.svg"
+# color = "#43ef23"
+# gradient = true
+# gap = 4
+# blurable = false
+
+# animations = true
+
+# background image overrides background gradient overrides background color
+# gradient overrides color
