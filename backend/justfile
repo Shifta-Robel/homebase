@@ -18,6 +18,10 @@ all_qlinks :
 all_rlist :
     @ curl localhost:8080/reading_list
 
+# get background
+background :
+    @ curl localhost:8080/background
+
 # run a command
 run_cmd COMMAND:
     curl -X POST \
